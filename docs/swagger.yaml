@@ -1,0 +1,160 @@
+definitions:
+  dto.AddCacheZoneRequest:
+    properties:
+      inactiveSecond:
+        type: integer
+      maxSizeMB:
+        type: integer
+      path:
+        type: string
+      zoneName:
+        type: string
+    required:
+    - inactiveSecond
+    - maxSizeMB
+    - path
+    - zoneName
+    type: object
+  dto.CreateDomainRequest:
+    properties:
+      address:
+        type: string
+      cacheKey:
+        type: string
+      name:
+        type: string
+      rateLimit:
+        $ref: '#/definitions/dto.rateLimit'
+      zoneId:
+        type: integer
+    required:
+    - address
+    - name
+    - zoneId
+    type: object
+  dto.Domain:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  dto.rateLimit:
+    properties:
+      burst:
+        type: integer
+      maxSize:
+        type: string
+      rate:
+        type: string
+      zone:
+        type: string
+    type: object
+  models.CacheZone:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      inactive:
+        type: string
+      maxSize:
+        type: integer
+      name:
+        type: string
+      path:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/domain:
+    get:
+      consumes:
+      - application/json
+      description: get all domains
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.Domain'
+            type: array
+      summary: get all domain
+      tags:
+      - domain
+    post:
+      consumes:
+      - application/json
+      description: create new domain
+      parameters:
+      - description: necessary item for create new
+        in: body
+        name: DomainCreateRequest
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateDomainRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: domain create
+      tags:
+      - domain
+  /api/v1/domain/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete domain with id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: domain delete
+      tags:
+      - domain
+  /api/v1/zone:
+    get:
+      consumes:
+      - application/json
+      description: get all zone
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CacheZone'
+            type: array
+      summary: get all zones
+      tags:
+      - zone
+    post:
+      consumes:
+      - application/json
+      description: create new zone
+      parameters:
+      - description: necessary item for create new
+        in: body
+        name: CreateCacheZone
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AddCacheZoneRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: create zone
+      tags:
+      - zone
+swagger: "2.0"

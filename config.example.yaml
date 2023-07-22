@@ -1,0 +1,29 @@
+##########################################################################
+#                                                                        #
+#                          Service Identity Part                         #
+#               For Further information, please check README             #
+#                                                                        #
+##########################################################################
+
+service:
+  name: "micro"
+  id: 105  # id is a number for this usecase and must be unique - If the problem is in choosing a number, for example with letters default number is 999
+  baseURL: "/v1/"
+  server:
+    host: "localhost"
+    port: ":8080"
+    readTimeout: "60s"
+    writeTimeout: "60s"
+
+
+jaeger:
+  hostPort: "jaeger:1214"
+  logSpans: true
+
+
+postgres:
+  username: "admin"
+  password: "password"
+  host: "postgres:5432"
+  schema: "nginx"
+

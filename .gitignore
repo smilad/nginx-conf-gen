@@ -1,0 +1,10 @@
+config.yaml
+config.test.yaml
+vendor/
+logs/*
+!logs/README.md
+tmp
+.devcontainer/
+docker-compose-dev.yml
+.idea
+*.pem

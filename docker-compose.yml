@@ -1,0 +1,59 @@
+version: "3.7"
+
+services:
+  # -----------------------------
+  # micro usecase
+  # -----------------------------
+  micro:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/go/src/application
+    networks:
+      - backend
+    depends_on:
+      - jaeger
+    ports:
+      - "8080:8080"
+  # -----------------------------
+  # jaeger servcie 
+  # -----------------------------
+  jaeger:
+    image: jaegertracing/all-in-one:1.20
+    ports:
+      - "1214:6831/udp"
+      - "1215:16686"
+    networks:
+      - backend
+   
+  # -----------------------------
+  # postgres database
+  # -----------------------------
+  postgres:
+    image: postgres:13.3
+    restart: unless-stopped
+    volumes: 
+      - psql-micro:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_DB: nginx
+    ports:
+      - 5432:5432
+    networks: 
+      - backend
+
+# -----------------------------
+# networks
+# -----------------------------
+networks:
+  backend:
+    external: true
+
+# -----------------------------
+# volumes
+# -----------------------------
+volumes: 
+  psql-micro:
+    driver: local
