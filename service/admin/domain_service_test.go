@@ -259,7 +259,15 @@ func TestDomainService_GetAllZone(t *testing.T) {
 	ctx := context.Background()
 
 	// Test data
-	expectedZones := []models.CacheZone{}
+	expectedZones := []models.CacheZone{
+		{
+			ID:       1,
+			Name:     "example_zone",
+			Path:     "/var/cache/nginx",
+			MaxSize:  100,
+			Inactive: "60s",
+		},
+	}
 
 	// Mock zoneRepo.GetAll call
 	mockZoneRepo.EXPECT().GetAll(gomock.Any()).Return(expectedZones, nil)
